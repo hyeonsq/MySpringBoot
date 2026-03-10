@@ -9,10 +9,9 @@ import org.springframework.context.annotation.Profile;
 public class ProdConfig {
     @Bean
     public CustomerVO customerVO() {
-        return CustomerVO.builder() //CustomerVoBuilder
+        return CustomerVO.builder() //CustomerVOBuilder
                 .mode("운영 환경")
                 .rate(1.5)
                 .build();
-
     }
 }
