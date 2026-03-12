@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -22,17 +23,28 @@ public class UserController {
         return "leaf";
     }
 
+    /*
+    public ModelAndView(String viewName,
+                String modelName,
+                Object modelObject)
+     */
     @GetMapping("/index")
     public ModelAndView index() {
         List<User> userList = userRepository.findAll();
-        return new ModelAndView("index", "users",userList);
+        return new ModelAndView("index","users",userList);
     }
 
-    //    @GetMapping("/index")
-    //    public String index(Model model) {
-    //        model.addAttribute("users", userRepository.findAll());
-    //        return "index";
-    //    }
+//    @GetMapping("/index")
+//    public String index(Model model) {
+//        model.addAttribute("users", userRepository.findAll());
+//        return "index";
+//    }
+
+    //등록 페이지를 Load하는 메서드
+    @GetMapping("/signup")
+    public String showSignUpForm(@ModelAttribute("user") User user) {
+        return "add-user";
+    }
 
 
 }
