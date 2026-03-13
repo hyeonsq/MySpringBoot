@@ -20,9 +20,11 @@ public class UserInfoUserDetails implements UserDetails {
         this.userInfo = userInfo;
         this.email=userInfo.getEmail();
         this.password=userInfo.getPassword();
-        //roles: ROLE_ADMIN, ROLE_USER
+        //roles : ROLE_ADMIN,ROLE_USER
         this.authorities= Arrays.stream(userInfo.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
+                .map(roleName -> new SimpleGrantedAuthority(roleName))
+                //.map(SimpleGrantedAuthority::new)
+                //Stream<SimpleGrantedAuthority> => List<SimpleGrantedAuthority>
                 .collect(Collectors.toList());
     }
 
@@ -33,9 +35,8 @@ public class UserInfoUserDetails implements UserDetails {
 
     /*
         getUsername과 getPassword 메서드는
-        AuthenticationManger가 인증처리를 할 때 호출된다.
+        AuthenticationManager가 인증처리를 할때 호출된다.
      */
-
     @Override
     public String getPassword() {
         return password;
@@ -45,10 +46,10 @@ public class UserInfoUserDetails implements UserDetails {
     public String getUsername() {
         return email;
     }
-    
+
     public UserInfo getUserInfo() {
         return userInfo;
-    }    
+    }
 
     @Override
     public boolean isAccountNonExpired() {
